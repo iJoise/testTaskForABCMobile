@@ -214,7 +214,7 @@ function createHTMLdocument(data) {
    // создаём шапку нашего блока
    const starWarsBlock = document.querySelector('.star-wars');
    const img = document.createElement('img');
-   img.src = '../img/lucke.jpg';
+   img.src = 'img/lucke.jpg';
    starWarsBlock.prepend(img);
    const h1 = document.createElement('h1');
    h1.textContent = data.name;
@@ -255,7 +255,7 @@ function createHTMLdocument(data) {
             createValue(divValue, elements, divParent)
          }
       }
-   }, 500)
+   }, 1000)
 }
 //создаём ключи
 function createKey(divKey, keyFinal, divParent) {
