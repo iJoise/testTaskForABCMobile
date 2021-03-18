@@ -1013,6 +1013,8 @@ body {
 }
 
 .star-wars__char {
+  margin: 0 auto;
+  max-width: 700px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
