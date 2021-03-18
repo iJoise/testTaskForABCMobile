@@ -255,7 +255,7 @@ function createHTMLdocument(data) {
             createValue(divValue, elements, divParent)
          }
       }
-   }, 1000)
+   }, 1500)
 }
 //создаём ключи
 function createKey(divKey, keyFinal, divParent) {
