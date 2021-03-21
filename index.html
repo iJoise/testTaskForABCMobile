@@ -6,7 +6,6 @@
    <meta charset="UTF-8">
    <meta name="format-detection" content="telephone=no">
    <link rel="stylesheet" href="css/style.css">
-   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
    <!-- <meta name="robots" content="noindex, nofollow"> -->
    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +59,7 @@
                   <div class="quiz__item hide active">
                      <div class=" quiz__text">Боитесь ли вы умереть?</div>
                      <div class="quiz__button">
-                        <button class="buttonOne button">Да</button>
+                        <a href="#callback" class="buttonOne btn _popup-link">Да</a>
                         <button class="buttonTwo button">Нет</button>
                         <div class="quiz__questions">Вопрос 1-5</div>
                      </div>
@@ -71,112 +70,149 @@
                         <div class="bottom__footer-image"><img src="img/rune2.svg" alt="rune2"></div>
                      </div>
                   </div>
-                  <div class="quiz__item hide">
-                     <div class="quiz__body">
-                        <div class="quiz__subtitle">Мы расскажем Вам не только подробности вашей смерти, но также
-                           поможем Вам избежать этой ужасной даты и продлить вашу жизнь на многие годы.</div>
-                        <span></span>
-                        <div class="quiz__text">Когда Вы чувствуете себя наиболее комфортно?</div>
-                        <div class="quiz__button">
-                           <button class="buttonOne button">Утро</button>
-                           <button class="buttonTwo button">День</button>
-                           <button class="buttonTree button">Вечер</button>
-                           <button class="buttonFour button">Ночь</button>
-                        </div>
-                        <div class="quiz__questions">Вопрос 2-5</div>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide ">
-                     <div class="quiz__body">
-                        <div class="quiz__subtitle">Уже совсем скоро Вы узнаете много интересного о своем будущем!</div>
-                        <span></span>
-                        <div class="quiz__text">Укажите свою дату рождения:</div>
-                        <div class="quiz__button">
-                           <select name="form" class="select-css select-day">
-                              <option value="" default disabled selected>День</option>
-                           </select>
-                           <select name="form" class="select-css select-month">
-                              <option value="" default disabled selected>Месяц</option>
-                           </select>
-                           <select name="form" class="select-css select-year">
-                              <option value="" default disabled selected>Год</option>
-                           </select>
-                           <button class="button-select button">Далее</button>
-                        </div>
-                        <div class="quiz__questions">Вопрос 3-5</div>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide load ">
-                     <div class="quiz__loading">
-                        <img src="img/Spinner.svg" alt="spiner">
-                        <p>Loading</p>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide">
-                     <div class="quiz__body">
-                        <div class="quiz__subtitle">Смерть родного человека – одно из тяжелейших испытаний в жизни
-                           каждого из нас!</div>
-                        <span></span>
-                        <div class="quiz__text">Снятся ли Вам умершие люди?</div>
-                        <div class="quiz__button">
-                           <button class="buttonYes button">Да</button>
-                           <button class="buttonNo button">Нет</button>
-                           <button class="buttonSometime button">Иногда</button>
-                        </div>
-                        <div class="quiz__questions">Вопрос 4-5</div>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide">
-                     <div class="quiz__body">
-                        <div class="quiz__subtitle-quote">По вам скучает очень близкий человек, которого больше нет в
-                           мире живых.
-                        </div>
-                        <span></span>
-                        <div class="quiz__text">Запись, которую Вы услышите, может шокировать людей с неокрепшей
-                           психикой. Вы готовы узнать, что ждет именно Вас?</div>
-                        <div class="quiz__button">
-                           <button class="buttonYes button">Да</button>
-                           <button class="buttonNo button">Затрудняюсь ответить</button>
-                        </div>
-                        <div class="quiz__questions">Вопрос 5-5</div>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide rec">
-                     <div class=" quiz__record record">
-                        <img src="img/microphone.svg" alt="spiner">
-                        <div class="record__progress-bar">
-                           <div class="record__progress"></div>
-                        </div>
-                        <div class="record__percent">100%</div>
-                        <p>Запись сообщения</p>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide ">
-                     <div class="body-last-item">
-                        <div class="body-last-item__quote">Спасибо за Ваши ответы!<br><span>Мы подготовили для Вас<br>
-                              персональную аудио запись с Вашим прогнозом.</span></div>
-                        <div class="body-last-item__subtitle">Вы можете узнать, как повлиять на события, которые ожидают
-                           вас в ближайшем будущем.
-                        </div>
-                        <div class="body-last-item__center">
-                           <p>Первое значимое событие может произойти уже <span>14.02.2021,</span></p> Вам
-                           надо быть готовым, что бы последствия не оказались необратимыми.
-                        </div>
-                        <div class="body-last-item__text">Нажмите на кнопку ниже прямо сейчас и наберите наш номер
-                           телефона. Прослушайте важную информацию!</div>
-                        <button class="button body-last-item__button">Позвонить и прослушать</button>
-                     </div>
-                  </div>
-                  <div class="quiz__item hide ">
-                     <div class="star-wars"></div>
-                  </div>
+                  <!-- 
+                  -->
                </div>
             </div>
          </section>
       </main>
       <!-- ===================================================================================================== -->
    </div>
+   <div class="popup popup_callback">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="quest__body">
+               <div class="quest__subtitle">Мы расскажем Вам не только подробности вашей смерти, но также
+                  поможем Вам избежать этой ужасной даты и продлить вашу жизнь на многие годы.</div>
+               <span></span>
+               <div class="quest__text">Когда Вы чувствуете себя наиболее комфортно?</div>
+               <div class="quest__button">
+                  <a href="#blockTwo" class="btn _popup-link">Утро</a>
+                  <a href="#blockTwo" class="btn _popup-link">День</a>
+                  <a href="#blockTwo" class="btn _popup-link">Вечер</a>
+                  <a href="#blockTwo" class="btn _popup-link">Ночь</a>
+               </div>
+               <div class="quest__questions">Вопрос 2-5</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockTwo">
+      <div class="popup__content">
+         <div class="popup__body ">
+            <div class="quest__body">
+               <div class="quest__subtitle">Уже совсем скоро Вы узнаете много интересного о своем будущем!</div>
+               <span></span>
+               <div class="quest__text">Укажите свою дату рождения:</div>
+               <div class="quest__button">
+                  <select name="form" class="select-css select-day">
+                     <option value="" default disabled selected>День</option>
+                  </select>
+                  <select name="form" class="select-css select-month">
+                     <option value="" default disabled selected>Месяц</option>
+                  </select>
+                  <select name="form" class="select-css select-year">
+                     <option value="" default disabled selected>Год</option>
+                  </select>
+                  <button class="btn-load button">Далее</button>
+               </div>
+               <div class="quest__questions">Вопрос 3-5</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockTree">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="quest__loading">
+               <img src="img/Spinner.svg" alt="spiner">
+               <p>Loading</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockFour">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="quest__body">
+               <div class="quest__subtitle">Смерть родного человека – одно из тяжелейших испытаний в жизни
+                  каждого из нас!</div>
+               <span></span>
+               <div class="quest__text">Снятся ли Вам умершие люди?</div>
+               <div class="quest__button">
+                  <a href="#blockFive" class="_popup-link btn">Да</a>
+                  <a href="#blockFive" class="_popup-link btn">Нет</a>
+                  <a href="#blockFive" class="_popup-link btn">Иногда</a>
+               </div>
+               <div class="quest__questions">Вопрос 4-5</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockFive">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="quest__body">
+               <div class="quest__subtitle-quote">По вам скучает очень близкий человек, которого больше нет в
+                  мире живых.
+               </div>
+               <span></span>
+               <div class="quest__text">Запись, которую Вы услышите, может шокировать людей с неокрепшей
+                  психикой. Вы готовы узнать, что ждет именно Вас?</div>
+               <div class="quest__button">
+                  <a href="#blockSix" class="_popup-link btn btn-block-five">Да</a>
+                  <a href="#blockSix" class="_popup-link btn btn-block-five">Затрудняюсь ответить</a>
+               </div>
+               <div class="quest__questions">Вопрос 5-5</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockSix">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class=" quest__record record">
+               <img src="img/microphone.svg" alt="spiner">
+               <div class="record__progress-bar">
+                  <div class="record__progress"></div>
+               </div>
+               <div class="record__percent">100%</div>
+               <p>Запись сообщения</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockSeven">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="body-last-item">
+               <div class="body-last-item__quote">Спасибо за Ваши ответы!<br><span>Мы подготовили для Вас<br>
+                     персональную аудио запись с Вашим прогнозом.</span></div>
+               <div class="body-last-item__subtitle">Вы можете узнать, как повлиять на события, которые ожидают
+                  вас в ближайшем будущем.
+               </div>
+               <div class="body-last-item__center">
+                  <p>Первое значимое событие может произойти уже <span>14.02.2021,</span></p> Вам
+                  надо быть готовым, что бы последствия не оказались необратимыми.
+               </div>
+               <div class="body-last-item__text">Нажмите на кнопку ниже прямо сейчас и наберите наш номер
+                  телефона. Прослушайте важную информацию!</div>
+               <a href="#blockEight" class="button body-last-item__button _popup-link">Позвонить и прослушать</a>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="popup popup_blockEight">
+      <div class="popup__content">
+         <div class="popup__body">
+            <div class="quiz__item hide">
+               <div class="star-wars"></div>
+            </div>
+         </div>
+      </div>
+   </div>
    <script src="js/scroll.js"></script>
+   <script src="js/functions.js"></script>
    <script src=" js/script.js"></script>
 </body>
 

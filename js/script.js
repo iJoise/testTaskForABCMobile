@@ -1,12 +1,12 @@
 "use strict"
-
+//получаем селекты
 const selectDay = document.querySelector('.select-day');
 const selectMonth = document.querySelector('.select-month');
 const selectYear = document.querySelector('.select-year');
 
 const curentDate = new Date()
 
-//заполняем селекты
+// заполняем селекты
 const addSelectOption = (sel, from, to) => {
    for (let i = from; i <= to; i++) {
       if (sel === selectMonth) {
@@ -23,83 +23,47 @@ const getSelectMonth = addSelectOption(selectMonth, 1, 12);
 const getSelectYear = addSelectOption(selectYear, 1960, curentDate.getFullYear());
 
 //получаем value селектов + кастомная валидация
-const btnSelect = document.querySelector('.button-select');
-const select = document.querySelectorAll('.select-css');
+const select = document.querySelectorAll('.select-css'); // nodeList селектов
+const btnSelect = document.querySelector('.btn-load');  //кнопка валидации селектов
+const blockTwo = document.querySelector('.popup_blockTwo'); //блок с селектами
+const blockTree = document.querySelector('.popup_blockTree'); //блок с загрузкой
+const blockFour = document.querySelector('.popup_blockFour'); //следущий блок после блока с загрузкой
 
-let getDay = '';
-let getMonth = '';
-let getYear = '';
+let getDay = ''; //переменные в которых будем хранить данные выбранные в селекте
+let getMonth = ''; //переменные в которых будем хранить данные выбранные в селекте
+let getYear = '';   //переменные в которых будем хранить данные выбранные в селекте
 
-const getSelectValue = () => {
-   btnSelect.setAttribute('disabled', true);
-   let count = 0;
-   select.forEach(elem => {
-      if (elem.value === '') {
-         elem.classList.add('error');
-         elem.addEventListener('change', () => {
-            elem.classList.remove('error');
-            count++;
-            if (count === 3) {
-               getDay = selectDay.value;
-               getMonth = selectMonth.value;
-               getYear = selectYear.value;
-               btnSelect.removeAttribute('disabled');
-               showQuoteBlock();
-            }
-         })
-      }
-   })
-}
-getSelectValue()
-
-//Меняем блоки с вопросами по клику кнопки
-const btn = document.querySelectorAll('.button');
-const block = document.querySelectorAll('.quiz__item');
-//счётчик блоков
-let count = 0;
-//изменения счётчика при клике на кнопку
-const increaseCount = () => {
-   btn.forEach(item => {
-      item.addEventListener('click', () => {
-         count++;
-         showBlockQuiz();
-      })
-   })
-}
-increaseCount()
-
-// смена блоков
-const load = document.querySelector('.load');
-const rec = document.querySelector('.rec');
-
-const showBlockQuiz = () => {
-   //перебираем nodeList блоков
-   block.forEach((elem, index) => {
-      //если счётчик === индексу то убираем или добавляем класс
-      if (count === index) {
-         elem.classList.add('active');
+btnSelect.addEventListener('click', () => {
+   select.forEach(item => {
+      if (item.value === '') {
+         item.classList.add('error');
       } else {
-         elem.classList.remove('active');
-      }
-      //смена блока с анимацией загрузки через определённое время
-      if (count === 3 && index === 3) {
-         swapBlockNoButton(load, 2000);
-
-      }
-      if (count === 6 && index === 6) {
-         swapBlockNoButton(rec, 3000)
-         progress();
+         item.classList.remove('error');
       }
    })
-};
+   if (selectDay.value !== '' && selectMonth.value !== '' && selectYear.value !== '') {
+      //смена блока
+      blockTwo.classList.remove('_active');
+      blockTree.classList.add('_active');
+      getDay = selectDay.value;
+      getMonth = selectMonth.value;
+      getYear = selectYear.value;
+      showQuoteBlock();
+      //смена блока с загрузкой через 2с
+      swapBlockNoButton(blockTree, blockFour, 2);
+   }
 
-const swapBlockNoButton = (block, delay) => {
+})
+
+//смена блока через определённое время
+
+const swapBlockNoButton = (block, block2, delay) => {
    setTimeout(() => {
-      block.classList.remove('active');
-      block.nextElementSibling.classList.add('active');
-      count++;
-   }, delay);
+      block.classList.remove('_active');
+      block2.classList.add('_active');
+   }, delay * 1000);
 }
+
 
 //Заполняем шапку 5го вопроса в зависимости от возраста
 //получаем текущие год, месяц, день
@@ -113,7 +77,7 @@ const showQuoteBlock = () => {
    const result = date - birthday;
    const curentAge = String(result).slice(0, 2);
    const curentAgeNumber = Number(curentAge);
-   const quote = document.querySelector('.quiz__subtitle-quote');
+   const quote = document.querySelector('.quest__subtitle-quote');
    if (curentAgeNumber >= 18 && curentAgeNumber <= 35) {
       quote.textContent = 'По вам скучает очень близкий человек, которого больше нет в мире живых.';
    } else if (curentAgeNumber >= 36 && curentAgeNumber <= 45) {
@@ -123,6 +87,15 @@ const showQuoteBlock = () => {
    }
 }
 
+//запускаем анимацию прогрессбара и меняем его через 3 секунды
+const btnBlockFive = document.querySelector('.btn-block-five');
+const blockSix = document.querySelector('.popup_blockSix');
+const blockSeven = document.querySelector('.popup_blockSeven')
+
+btnBlockFive.addEventListener('click', () => {
+   progress();
+   swapBlockNoButton(blockSix, blockSeven, 3);
+})
 
 //Анимация прогрессбара 
 function progress() {
@@ -130,7 +103,7 @@ function progress() {
    const progress = document.querySelector('.record__progress');
    let count = 1;
    let per = 3;
-   let loading = setInterval(animate, 15);
+   let loading = setInterval(animate, 25);
    function animate() {
       if (count === 100 && per === 300) {
          clearInterval(loading);
@@ -143,9 +116,12 @@ function progress() {
    }
 }
 
+
+
 //выводим завтрашнюю дату события
 const nextDay = document.querySelector('.body-last-item__center span')
 nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curentMonth).padStart(2, '0')}.${curentYear}`
+
 
 //================================================================================================================
 //ДЕЛАЕМ ЗАПРОС ПО НАЖАТИЮ КНОПКИ "Позвонить и прослушать"
@@ -154,7 +130,7 @@ nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curent
 
 //Делаем основной запрос
 const fetchStarWars = () => {
-   fetch('http://swapi.dev/api/people/1/')
+   fetch('https://swapi.dev/api/people/1/')
       .then(response => response.json())
       .then(data => {
          getInfo(data);
@@ -211,6 +187,7 @@ const getItemUrl = (category, array) => {
 
 //создаём HTML разметку
 function createHTMLdocument(data) {
+   console.log(data);
    // создаём шапку нашего блока
    const starWarsBlock = document.querySelector('.star-wars');
    const img = document.createElement('img');
@@ -231,53 +208,51 @@ function createHTMLdocument(data) {
          const divParent = document.createElement('div');
          divParent.classList.add('star-wars__char');
          starWarsBlock.append(divParent);
-         let divKey;
-         let divValue;
          //вставляем информацию из вложенных запросов
          if (Array.isArray(elements) || elements.includes('http')) {
             if (key === 'homeworld') {
-               createKey(divKey, keyFinal, divParent)
-               createValue(divValue, worldResult, divParent)
+               createKey(keyFinal, divParent)
+               createValue(worldResult, divParent)
             }
             if (key === 'films') {
-               createKey(divKey, keyFinal, divParent)
-               createValue(divValue, filmResult, divParent)
+               createKey(keyFinal, divParent)
+               createValue(filmResult, divParent)
             }
             if (key === 'starships') {
-               createKey(divKey, keyFinal, divParent)
-               createValue(divValue, starshipResult, divParent)
+               createKey(keyFinal, divParent)
+               createValue(starshipResult, divParent)
             } if (key === 'vehicles') {
-               createKey(divKey, keyFinal, divParent)
-               createValue(divValue, vehiclesResult, divParent)
+               createKey(keyFinal, divParent)
+               createValue(vehiclesResult, divParent)
             }
          } else {
-            createKey(divKey, keyFinal, divParent)
-            createValue(divValue, elements, divParent)
+            createKey(keyFinal, divParent)
+            createValue(elements, divParent)
          }
       }
    }, 1500)
 }
 //создаём ключи
-function createKey(divKey, keyFinal, divParent) {
-   divKey = document.createElement('div');
+function createKey(keyFinal, divParent) {
+   const divKey = document.createElement('div');
    divKey.classList.add('key');
    divKey.textContent = keyFinal;
    divParent.append(divKey);
 }
 //создаём значения
-function createValue(divValue, category, divParent) {
+function createValue(category, divParent) {
+   const divValue = document.createElement('div');
+   divValue.classList.add('value');
    if (Array.isArray(category)) {
-      divValue = document.createElement('div');
-      divValue.classList.add('value');
       divValue.innerHTML = category.join('<br>').replace(/,/);
-      divParent.append(divValue);
    } else {
-      divValue = document.createElement('div');
-      divValue.classList.add('value');
       divValue.innerHTML = category;
-      divParent.append(divValue);
    }
-
+   divParent.append(divValue);
 }
 
-document.querySelector('.body-last-item__button').onclick = fetchStarWars;
+
+const btnRunFeth = document.querySelector('.body-last-item__button');
+btnRunFeth.addEventListener('click', () => {
+   fetchStarWars();
+})
