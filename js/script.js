@@ -130,7 +130,7 @@ nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curent
 
 //Делаем основной запрос
 const fetchStarWars = () => {
-   fetch('https://swapi.dev/api/people/1/')
+   fetch('http://swapi.dev/api/people/1/')
       .then(response => response.json())
       .then(data => {
          getInfo(data);
