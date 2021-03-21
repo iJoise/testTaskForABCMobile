@@ -230,7 +230,7 @@ function createHTMLdocument(data) {
             createValue(elements, divParent)
          }
       }
-   }, 1500)
+   }, 2000)
 }
 //создаём ключи
 function createKey(keyFinal, divParent) {
