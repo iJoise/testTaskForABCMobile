@@ -1,10 +1,10 @@
-"use strict"
+
 //получаем селекты
 const selectDay = document.querySelector('.select-day');
 const selectMonth = document.querySelector('.select-month');
 const selectYear = document.querySelector('.select-year');
 
-const curentDate = new Date()
+const curentDate = new Date();
 
 // заполняем селекты
 const addSelectOption = (sel, from, to) => {
@@ -17,7 +17,8 @@ const addSelectOption = (sel, from, to) => {
       }
 
    }
-}
+};
+
 const getSelectDay = addSelectOption(selectDay, 1, 31);
 const getSelectMonth = addSelectOption(selectMonth, 1, 12);
 const getSelectYear = addSelectOption(selectYear, 1960, curentDate.getFullYear());
@@ -40,7 +41,7 @@ btnSelect.addEventListener('click', () => {
       } else {
          item.classList.remove('error');
       }
-   })
+   });
    if (selectDay.value !== '' && selectMonth.value !== '' && selectYear.value !== '') {
       //смена блока
       blockTwo.classList.remove('_active');
@@ -53,7 +54,7 @@ btnSelect.addEventListener('click', () => {
       swapBlockNoButton(blockTree, blockFour, 2);
    }
 
-})
+});
 
 //смена блока через определённое время
 
@@ -62,7 +63,7 @@ const swapBlockNoButton = (block, block2, delay) => {
       block.classList.remove('_active');
       block2.classList.add('_active');
    }, delay * 1000);
-}
+};
 
 
 //Заполняем шапку 5го вопроса в зависимости от возраста
@@ -85,17 +86,17 @@ const showQuoteBlock = () => {
    } else if (curentAgeNumber >= 46) {
       quote.textContent = 'По вам скучает очень близкий человек, которого больше нет в мире живых. Возможно это кто-то из Ваших родителей.';
    }
-}
+};
 
 //запускаем анимацию прогрессбара и меняем его через 3 секунды
 const btnBlockFive = document.querySelector('.btn-block-five');
 const blockSix = document.querySelector('.popup_blockSix');
-const blockSeven = document.querySelector('.popup_blockSeven')
+const blockSeven = document.querySelector('.popup_blockSeven');
 
 btnBlockFive.addEventListener('click', () => {
    progress();
    swapBlockNoButton(blockSix, blockSeven, 3);
-})
+});
 
 //Анимация прогрессбара 
 function progress() {
@@ -119,8 +120,8 @@ function progress() {
 
 
 //выводим завтрашнюю дату события
-const nextDay = document.querySelector('.body-last-item__center span')
-nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curentMonth).padStart(2, '0')}.${curentYear}`
+const nextDay = document.querySelector('.body-last-item__center span');
+nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curentMonth).padStart(2, '0')}.${curentYear}`;
 
 
 //================================================================================================================
@@ -134,11 +135,11 @@ const fetchStarWars = () => {
       .then(response => response.json())
       .then(data => {
          getInfo(data);
-         createHTMLdocument(data)
+         createHTMLdocument(data);
       }).catch(e => {
          console.error('Что-то пошло не так', e);
-      })
-}
+      });
+};
 
 //создаём массивы где будут храниться результаты запросов по вложенным ссылкам
 const filmResult = [];
@@ -165,7 +166,7 @@ const getInfo = (data) => {
       const vehicles = data.vehicles;
       getItemUrl(vehicles, vehiclesResult);
    }
-}
+};
 
 const getItemUrl = (category, array) => {
    if (Array.isArray(category)) {
@@ -174,16 +175,16 @@ const getItemUrl = (category, array) => {
             .then(response => response.json())
             .then(category => {
                array.push(category.name || category.title);
-            })
+            });
       }
    } else {
       fetch(category)
          .then(response => response.json())
          .then(category => {
             array.push(category.name);
-         })
+         });
    }
-}
+};
 
 //создаём HTML разметку
 function createHTMLdocument(data) {
@@ -211,26 +212,26 @@ function createHTMLdocument(data) {
          //вставляем информацию из вложенных запросов
          if (Array.isArray(elements) || elements.includes('http')) {
             if (key === 'homeworld') {
-               createKey(keyFinal, divParent)
-               createValue(worldResult, divParent)
+               createKey(keyFinal, divParent);
+               createValue(worldResult, divParent);
             }
             if (key === 'films') {
-               createKey(keyFinal, divParent)
-               createValue(filmResult, divParent)
+               createKey(keyFinal, divParent);
+               createValue(filmResult, divParent);
             }
             if (key === 'starships') {
-               createKey(keyFinal, divParent)
-               createValue(starshipResult, divParent)
+               createKey(keyFinal, divParent);
+               createValue(starshipResult, divParent);
             } if (key === 'vehicles') {
-               createKey(keyFinal, divParent)
-               createValue(vehiclesResult, divParent)
+               createKey(keyFinal, divParent);
+               createValue(vehiclesResult, divParent);
             }
          } else {
-            createKey(keyFinal, divParent)
-            createValue(elements, divParent)
+            createKey(keyFinal, divParent);
+            createValue(elements, divParent);
          }
       }
-   }, 2000)
+   }, 2000);
 }
 //создаём ключи
 function createKey(keyFinal, divParent) {
@@ -255,4 +256,4 @@ function createValue(category, divParent) {
 const btnRunFeth = document.querySelector('.body-last-item__button');
 btnRunFeth.addEventListener('click', () => {
    fetchStarWars();
-})
+});
