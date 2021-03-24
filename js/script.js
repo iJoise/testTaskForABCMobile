@@ -253,7 +253,7 @@ function createValue(category, divParent) {
 }
 
 
-const btnRunFeth = document.querySelector('.body-last-item__button');
+const btnRunFeth = document.querySelector('.btn_green');
 btnRunFeth.addEventListener('click', () => {
    fetchStarWars();
 });
