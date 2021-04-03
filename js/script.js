@@ -126,134 +126,115 @@ nextDay.textContent = `${String(curentDay + 1).padStart(2, '0')}.${String(curent
 
 //================================================================================================================
 //ДЕЛАЕМ ЗАПРОС ПО НАЖАТИЮ КНОПКИ "Позвонить и прослушать"
-
-// const url = 'https://swapi.dev/api/people/1/';
-
-//Делаем основной запрос
-const fetchStarWars = () => {
-   fetch('https://swapi.dev/api/people/1/')
-      .then(response => response.json())
-      .then(data => {
-         getInfo(data);
-         createHTMLdocument(data);
-      }).catch(e => {
-         console.error('Что-то пошло не так', e);
-      });
-};
-
-//создаём массивы где будут храниться результаты запросов по вложенным ссылкам
-const filmResult = [];
-const starshipResult = [];
-const vehiclesResult = [];
-const worldResult = [];
-
-
-//Делаем запросы по вложенным ссылкам
-const getInfo = (data) => {
-   if (data.homeworld) {
-      const world = data.homeworld;
-      getItemUrl(world, worldResult);
-   }
-   if (data.films) {
-      const films = data.films;
-      getItemUrl(films, filmResult);
-   }
-   if (data.starships) {
-      const starships = data.starships;
-      getItemUrl(starships, starshipResult);
-   }
-   if (data.vehicles) {
-      const vehicles = data.vehicles;
-      getItemUrl(vehicles, vehiclesResult);
-   }
-};
-
-const getItemUrl = (category, array) => {
-   if (Array.isArray(category)) {
-      for (const item of category) {
-         fetch(item)
-            .then(response => response.json())
-            .then(category => {
-               array.push(category.name || category.title);
-            });
-      }
-   } else {
-      fetch(category)
-         .then(response => response.json())
-         .then(category => {
-            array.push(category.name);
-         });
-   }
-};
-
-//создаём HTML разметку
-function createHTMLdocument(data) {
-   console.log(data);
-   // создаём шапку нашего блока
-   const starWarsBlock = document.querySelector('.star-wars');
-   const img = document.createElement('img');
-   img.src = 'img/lucke.jpg';
-   starWarsBlock.prepend(img);
-   const h1 = document.createElement('h1');
-   h1.textContent = data.name;
-   starWarsBlock.prepend(h1);
-
-   setTimeout(() => {
-      for (const key in data) {
-         const elements = data[key];
-         const keyFinal = key[0].toUpperCase() + key.slice(1).replace(/_/, ' ');
-         //убираем не нужные елементы
-         if (key === 'name' || key === 'species' || key === 'url') {
-            continue;
-         }
-         const divParent = document.createElement('div');
-         divParent.classList.add('star-wars__char');
-         starWarsBlock.append(divParent);
-         //вставляем информацию из вложенных запросов
-         if (Array.isArray(elements) || elements.includes('http')) {
-            if (key === 'homeworld') {
-               createKey(keyFinal, divParent);
-               createValue(worldResult, divParent);
-            }
-            if (key === 'films') {
-               createKey(keyFinal, divParent);
-               createValue(filmResult, divParent);
-            }
-            if (key === 'starships') {
-               createKey(keyFinal, divParent);
-               createValue(starshipResult, divParent);
-            } if (key === 'vehicles') {
-               createKey(keyFinal, divParent);
-               createValue(vehiclesResult, divParent);
-            }
-         } else {
-            createKey(keyFinal, divParent);
-            createValue(elements, divParent);
-         }
-      }
-   }, 2000);
+//ф-я преобразования http в https
+const HTTPSify = (url) => {
+   const urlObj = new URL(url)
+   urlObj.protocol = 'https'
+   return urlObj.toString()
 }
-//создаём ключи
-function createKey(keyFinal, divParent) {
-   const divKey = document.createElement('div');
-   divKey.classList.add('key');
-   divKey.textContent = keyFinal;
-   divParent.append(divKey);
-}
-//создаём значения
-function createValue(category, divParent) {
-   const divValue = document.createElement('div');
-   divValue.classList.add('value');
-   if (Array.isArray(category)) {
-      divValue.innerHTML = category.join('<br>').replace(/,/);
-   } else {
-      divValue.innerHTML = category;
+//ф-я запросов по вложенным ссылкам
+const fetchItem = (endpointUrl) =>
+   fetch(HTTPSify(endpointUrl)).then((r) => r.json())
+
+//ф-я запроса характеристик персонажа по id
+const getPersonData = (personId) =>
+   fetch(`https://swapi.dev/api/people/${personId}/`).then((r) => r.json())
+
+/**
+ * создаём новый объект с учётом ответа по вложенным сслкам
+ */
+const enrichPersonData = async (data) => {
+   return {
+      ...data,
+      homeworld: await fetchItem(data.homeworld),
+      films: await Promise.all(data.films.map(fetchItem)),
+      vehicles: await Promise.all(data.vehicles.map(fetchItem)),
+      starships: await Promise.all(data.starships.map(fetchItem)),
+      species: await Promise.all(data.species.map(fetchItem))
    }
-   divParent.append(divValue);
 }
 
+/**
+ *  Нормализуем объект для дальнейшего рендера на страницу
+ */
+const normalizePersonData = (data) => {
+   const {
+      height,
+      mass,
+      hair_color,
+      skin_color,
+      eye_color,
+      birth_year,
+      gender,
+      homeworld,
+      films,
+      vehicles,
+      starships,
+      created,
+      edited,
+      ...rest
+   } = data
 
-const btnRunFeth = document.querySelector('.btn_green');
-btnRunFeth.addEventListener('click', () => {
-   fetchStarWars();
-});
+   return {
+      ...rest,
+      characteristics: [
+         { name: 'Height', value: height },
+         { name: 'Mass', value: mass },
+         { name: 'Hair color', value: hair_color },
+         { name: 'Skin Color', value: skin_color },
+         { name: 'Eye Color', value: eye_color },
+         { name: 'Birth Year', value: birth_year },
+         { name: 'Gender', value: gender },
+         { name: 'Homeworld', value: homeworld.name },
+         { name: 'Films', value: films.map((film) => film.title).join(', ') },
+         {
+            name: 'Vehicles',
+            value: vehicles.map((vehicles) => vehicles.name).join(', ')
+         },
+         {
+            name: 'Starships',
+            value: starships.map((ship) => ship.name).join(', ')
+         },
+         { name: 'Created at', value: new Date(created).toLocaleDateString() },
+         { name: 'Edited at', value: new Date(created).toLocaleDateString() }
+      ]
+   }
+}
+/**
+ * Рендер персонажа на страницу
+ */
+const renderPerson = (data) => {
+   const renderTarget = document.querySelector('.star-wars')
+   renderTarget.innerHTML = `
+      <h1>${data.name}</h1>
+      <img src="img/lucke.jpg">
+      ${data.characteristics
+         .map(
+            (char) => `
+            <div class="star-wars__char">
+               <div class="key">${char.name}</div>
+               <div class="value">${char.value}</div>
+            </div>
+      `
+         )
+         .join('')}
+   `
+}
+
+const btnRunFetch = document.querySelector('.btn_green')
+
+btnRunFetch.addEventListener('click', () =>
+   getPersonData(1)
+      .then((data) => {
+         console.log('Raw API data', data)
+         return enrichPersonData(data)
+      })
+      .then((data) => {
+         console.log('Enriched person data', data)
+         return normalizePersonData(data)
+      })
+      .then((data) => {
+         console.log('Normalized person data', data)
+         renderPerson(data)
+      })
+)
